@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\admin\SliderController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ExpertiesController;
+use App\Http\Controllers\admin\CompanyController;
+use App\Http\Controllers\admin\CertificatesController;
+use App\Http\Controllers\Products;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +20,11 @@ use App\Http\Controllers\admin\SliderController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\Home::class, 'index'] );
+Route::get('/products',[Products::class, 'index'] );
+Route::get('/products/{id}',[Products::class,'product']);
+Route::get('/company',[App\Http\Controllers\CompanyController::class,'index']);
+Route::get('/certificates',[App\Http\Controllers\CertificatesController::class,'index']);
 
 Auth::routes();
 
@@ -32,6 +39,42 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('slider','index')->name('slider');
             Route::get('slider/add','add')->name('slider.add');
             Route::post('slider/store','store')->name('slider.store');
+        });
+
+        Route::controller(ProductController::class)->group(function() {
+            Route::get('product','index')->name('product');
+            Route::get('product/add','add')->name('product.add');
+            Route::post('product/store','store')->name('product.store');
+            Route::get('product/delete/{id}','delete')->name('product.delete');
+            Route::get('product/edit/{id}','edit')->name('product.edit');
+            Route::post('product/update/{id}','update')->name('product.update');
+        });
+
+        Route::controller(ExpertiesController::class)->group(function() {
+            Route::get('experties','index')->name('experties');
+            Route::get('experties/add','add')->name('experties.add');
+            Route::post('experties/store','store')->name('experties.store');
+            Route::get('experties/delete/{id}','delete')->name('experties.delete');
+            Route::get('experties/edit/{id}','edit')->name('experties.edit');
+            Route::post('experties/update/{id}','update')->name('experties.update');
+        });
+
+        Route::controller(CompanyController::class)->group(function() {
+            Route::get('company','index')->name('company');
+            Route::get('company/add','add')->name('company.add');
+            Route::post('company/store','store')->name('company.store');
+            Route::get('company/delete/{id}','delete')->name('company.delete');
+            Route::get('company/edit/{id}','edit')->name('company.edit');
+            Route::post('company/update/{id}','update')->name('company.update');
+        });
+
+        Route::controller(CertificatesController::class)->group(function() {
+            Route::get('certificates','index')->name('certificates');
+            Route::get('certificates/add','add')->name('certificates.add');
+            Route::post('certificates/store','store')->name('certificates.store');
+            Route::get('certificates/delete/{id}','delete')->name('certificates.delete');
+            Route::get('certificates/edit/{id}','edit')->name('certificates.edit');
+            Route::post('certificates/update/{id}','update')->name('certificates.update');
         });
     });
 
